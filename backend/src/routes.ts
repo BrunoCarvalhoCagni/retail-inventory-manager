@@ -17,5 +17,6 @@ routes.get('/erro-async', async (req, res) => {
 // Product routes
 routes.get('/products', productController.index);
 routes.post('/products', productController.store);
+routes.put('/products{/:id}', productController.update);
 
 export { routes };

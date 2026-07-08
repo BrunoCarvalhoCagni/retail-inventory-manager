@@ -1,12 +1,14 @@
-import { useProducts } from './hooks/useProducts.ts';
+import { useProducts, type Product } from './hooks/useProducts.ts';
 import { Package, Plus, Loader2 } from 'lucide-react';
 import { CreateProductModal } from './components/CreateProductModal.tsx';
+import { EditProductModal } from './components/EditProductModal.tsx';
 import { Toaster } from 'sonner';
 import { useState } from 'react';
 
 export default function App() {
   const { data: products, isLoading } = useProducts();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   if (isLoading) return (
     <div className="h-screen flex items-center justify-center">
@@ -18,6 +20,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 p-8">
       <Toaster position="top-right" richColors />
       <CreateProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <EditProductModal product={editingProduct} onClose={() => setEditingProduct(null)} />
       <div className="max-w-5xl mx-auto">
         <header className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">
@@ -56,7 +59,7 @@ export default function App() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <button className="text-blue-600 hover:underline text-sm font-medium">Edit</button>
+                    <button className="text-blue-600 hover:underline text-sm font-medium" onClick={() => setEditingProduct(product)}>Edit</button>
                   </td>
                 </tr>
               ))}

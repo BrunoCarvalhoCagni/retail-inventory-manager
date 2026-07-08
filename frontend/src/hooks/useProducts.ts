@@ -31,6 +31,14 @@ export function useProducts() {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
+  const updateMutation = useMutation({
+  mutationFn: async ({ id, ...data }: Product) => {
+    await api.put(`/products/${id}`, data);
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['products'] });
+  },
+});
 
-  return { ...query, createProduct: createMutation.mutateAsync };
+  return { ...query, createProduct: createMutation.mutateAsync, updateProduct: updateMutation.mutateAsync };
 }

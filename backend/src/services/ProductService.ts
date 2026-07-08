@@ -44,22 +44,22 @@ export class ProductService {
   }
 
   async update(id: string, { name, description, price, stock }: CreateProductData) {
-  const productExists = await prisma.product.findUnique({
-    where: { id }
-  });
+    const productExists = await prisma.product.findUnique({
+        where: { id }
+    });
 
-  if (!productExists) {
-    throw new AppError('Produto não encontrado', 404);
-  }
+    if (!productExists) {
+        throw new AppError('Produto não encontrado', 404);
+    }
 
-  if (price <= 0) throw new AppError('O preço deve ser maior que zero');
-  if (stock < 0) throw new AppError('O estoque não pode ser negativo');
+    if (price <= 0) throw new AppError('O preço deve ser maior que zero');
+    if (stock < 0) throw new AppError('O estoque não pode ser negativo');
 
-  const product = await prisma.product.update({
-    where: { id },
-    data: { name, description: description ?? null, price, stock }
-  });
+    const product = await prisma.product.update({
+        where: { id },
+        data: { name, description: description ?? null, price, stock }
+    });
 
-  return product;
+    return product;
 }
 }
